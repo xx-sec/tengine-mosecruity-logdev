@@ -1,0 +1,35 @@
+services:
+   web:
+      container_name: web-server
+      restart: always
+      build: ./src/web/
+      expose:
+        - "8077"
+      volumes:
+        - ./src/web/:/usr/src/app
+      command: /usr/local/bin/gunicorn website.wsgi:application -w 2 -b :8077
+      networks:
+          customize_net:
+            ipv4_address: 192.168.32.223
+
+   nginx:
+      container_name: nginx
+      restart: always
+      build: ./nginx-container/
+      ports:
+        - "80:80"
+      volumes:
+        - ./src/:/var/www/
+      links:
+        - web:web
+      networks:
+          customize_net:
+            ipv4_address: 192.168.32.99
+
+networks:
+  customize_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.32.0/24
