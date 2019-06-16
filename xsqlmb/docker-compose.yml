@@ -1,0 +1,99 @@
+version: "2.2"
+
+services:
+   tengine:
+      container_name: t1
+      image: 'actanble/tengine-with-modsecurity'
+      restart: always
+      ports:
+        - "3380:80"
+      volumes:
+        - /spool/log/:/var/log/
+        - /etc/localtime:/etc/localtime:ro
+      networks:
+        customize_net:
+          ipv4_address: 192.168.123.80
+        
+   mysqld:
+      container_name: mysql-server
+      image: 'mysql:5.7'
+      restart: always
+      volumes:
+        - /srv/docker/mysql/lib/modsecurity:/var/lib/mysql
+        - ./mysql/mysql.conf.d:/etc/mysql/mysql.conf.d
+      restart: always
+      ports:
+        - "3306:3306"
+      environment:
+       - MYSQL_USER=admin007
+       - MYSQL_PASSWORD=myadmin@816
+       - MYSQL_DATABASE=p3
+       - MYSQL_ROOT_PASSWORD=test@1q2w2e4R
+      networks:
+        customize_net:
+          ipv4_address: 192.168.123.101
+    
+   phpmyadmin:
+      container_name: phpmyadmin
+      image: 'phpmyadmin/phpmyadmin:4.8'
+      links:
+        - "mysqld:db"
+      environment:
+        - PMA_ARBITRARY=1
+        - TESTSUITE_PASSWORD=test@1q2w2e4R
+      depends_on:
+        - mysqld
+      volumes:
+        - /sessions
+      restart: always
+      ports:
+        - "8080:80"
+      networks:
+        customize_net:
+          ipv4_address: 192.168.123.77
+    
+   mongod:
+      container_name: mongo-server
+      image: 'mongo'
+      volumes:
+        - /srv/docker/mongo_data:/data
+        - /etc/localtime:/etc/localtime:ro
+      restart: always
+      ports:
+        - "27017:27017"
+      networks:
+        customize_net:
+          ipv4_address: 192.168.123.41
+
+   fluentd:
+      container_name: fluentd
+      image: 'actanble/fluentd:1.4'
+      restart: always
+      volumes:
+        - /spool/log/:/spool/log/
+        - /etc/localtime:/etc/localtime:ro
+        - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+      ports:
+        - "24224:24224"
+        - "24224:24224/udp"
+      networks:
+        customize_net:
+          ipv4_address: 192.168.123.55
+
+   pytask:
+      container_name: pytask
+      restart: always
+      build: ./xsqlmb
+      volumes:
+        - ./xsqlmb:/usr/local/xsqlmb
+      networks:
+          customize_net:
+            ipv4_address: 192.168.2.202
+
+networks:
+  customize_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.123.0/24
