@@ -1,3 +1,5 @@
+version: "2.2"
+
 services:
    web:
       container_name: web-server
@@ -9,22 +11,22 @@ services:
         - ./src/web/:/usr/src/app
       command: /usr/local/bin/gunicorn website.wsgi:application -w 2 -b :8077
       networks:
-          customize_net:
-            ipv4_address: 192.168.32.223
+         customize_net:
+           ipv4_address: 192.168.32.223
 
    nginx:
       container_name: nginx
       restart: always
       build: ./nginx-container/
       ports:
-        - "80:80"
+        - "1080:80"
       volumes:
         - ./src/:/var/www/
       links:
         - web:web
       networks:
-          customize_net:
-            ipv4_address: 192.168.32.99
+         customize_net:
+           ipv4_address: 192.168.32.19
 
 networks:
   customize_net:
