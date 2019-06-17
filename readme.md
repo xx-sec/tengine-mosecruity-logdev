@@ -52,3 +52,22 @@ tenginemosecruitylogdev_pytask /bin/bash
 ```
 
 ### bash 脚本控制到s或者使用Tornado,Apscheduler
+
+
+## Tengine 绑定自己的 conf 
+```bash
+docker run -itd -p 3380:80 \
+-v /spool/log/:/var/log/ -v $(pwd)/tengine/vhost:/etc/nginx/vhost\
+--restart=always \
+--name=tengine \
+actanble/tengine-with-modsecurity
+
+```
+
+## 部署juiceshop靶场
+```bash
+docker run -itd -p 3000:3000 \
+--name=juice-shop  bkimminich/juice-shop
+
+```
+
