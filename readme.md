@@ -31,7 +31,7 @@ docker exec -t tengine /usr/sbin/nginx
 
 ## Modsecruity 日志Scheme导入
 ```bash 
-docker exec -t mysql-server mysql -uroot -ptest@1q2w2e4R p3 < modsecurity-log.scheme 
+docker exec -i mysql-server mysql -uroot -ptest@1q2w2e4R p3 < modsecurity-log.scheme 
 ```
 
 ## 日志Mongo2Mysql部署
