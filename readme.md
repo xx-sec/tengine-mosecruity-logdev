@@ -71,3 +71,16 @@ docker run -itd -p 3000:3000 \
 
 ```
 
+## 最新更新
+- 编译安装的版本 actanble/modsecurity 存在docker-compose 问题
+- 需要改进，目前启动方法
+```bash 
+docker run -itd -p 3280:80 -v /spool/log/:/var/log/ \
+-v $(pwd)/tengine/ \
+-v /etc/localtime:/etc/localtime:ro \
+-v $(pwd)/tengine/nginx.conf:/etc/nginx.conf \
+-v $(pwd)/tengine/help.conf:/etc/nginx/help.conf \
+-v $(pwd)/tengine/vhosts:/etc/nginx/vhosts \
+  --restart=always --name=tengine actanble/modsecurity /bin/bash;
+docker exec -t tengine /usr/sbin/nginx
+```

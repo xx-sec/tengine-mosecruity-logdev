@@ -3,7 +3,7 @@ version: "2.2"
 services:
    tengine:
       container_name: t1
-      image: 'registry.cn-zhangjiakou.aliyuncs.com/xx-zhang/tengine-with-modsecurity'
+      image: 'actanble/modsecurity'
       restart: always
       ports:
         - "3380:80"
