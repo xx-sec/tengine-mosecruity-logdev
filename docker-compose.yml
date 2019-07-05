@@ -10,6 +10,10 @@ services:
       volumes:
         - /spool/log/:/var/log/
         - /etc/localtime:/etc/localtime:ro
+        - ./tengine/nginx.conf:/etc/nginx.conf
+        - ./tengine/help.conf:/etc/nginx/help.conf
+        - ./tengine/vhosts:/etc/nginx/vhosts
+      command: nginx
       networks:
         customize_net:
           ipv4_address: 192.168.123.80
@@ -86,6 +90,7 @@ services:
       build: ./xsqlmb
       volumes:
         - ./xsqlmb:/usr/local/xsqlmb
+      command: python
       networks:
           customize_net:
             ipv4_address: 192.168.123.202
