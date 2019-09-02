@@ -1,22 +1,18 @@
 version: "2.2"
 
 services:
-   tengine:
-      container_name: t1
-      image: 'actanble/modsecurity'
-      restart: always
-      ports:
-        - "3380:80"
-      volumes:
-        - /spool/log/:/var/log/
-        - /etc/localtime:/etc/localtime:ro
-        - ./tengine/nginx.conf:/etc/nginx.conf
-        - ./tengine/help.conf:/etc/nginx/help.conf
-        - ./tengine/vhosts:/etc/nginx/vhosts
-      command: nginx
-      networks:
-        customize_net:
-          ipv4_address: 192.168.123.80
+   #tengine:
+   #   container_name: t1
+   #   image: 'actanble/tengine-with-modsecurity'
+   #   restart: always
+   #   ports:
+   #     - "3380:80"
+   #   volumes:
+   #     - /spool/log/:/var/log/
+   #     - /etc/localtime:/etc/localtime:ro
+   #   networks:
+   #     customize_net:
+   #       ipv4_address: 192.168.123.80
         
    mysqld:
       container_name: mysql-server
@@ -27,7 +23,7 @@ services:
         - ./mysql/mysql.conf.d:/etc/mysql/mysql.conf.d
       restart: always
       ports:
-        - "3306:3306"
+        - "13306:3306"
       environment:
        - MYSQL_USER=admin007
        - MYSQL_PASSWORD=myadmin@816
@@ -51,7 +47,7 @@ services:
         - /sessions
       restart: always
       ports:
-        - "8080:80"
+        - "18080:80"
       networks:
         customize_net:
           ipv4_address: 192.168.123.77
@@ -85,12 +81,12 @@ services:
           ipv4_address: 192.168.123.55
 
    pytask:
+      image: 'registry.cn-hangzhou.aliyuncs.com/actanble/py3-base-v2'
       container_name: pytask
       restart: always
-      build: ./xsqlmb
+      #build: ./xsqlmb
       volumes:
         - ./xsqlmb:/usr/local/xsqlmb
-      command: python
       networks:
           customize_net:
             ipv4_address: 192.168.123.202

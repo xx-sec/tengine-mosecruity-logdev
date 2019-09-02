@@ -1,18 +1,18 @@
 version: "2.2"
 
 services:
-   tengine:
-      container_name: t1
-      image: 'actanble/tengine-with-modsecurity'
-      restart: always
-      ports:
-        - "3380:80"
-      volumes:
-        - /spool/log/:/var/log/
-        - /etc/localtime:/etc/localtime:ro
-      networks:
-        customize_net:
-          ipv4_address: 192.168.123.80
+   #tengine:
+   #   container_name: t1
+   #   image: 'actanble/tengine-with-modsecurity'
+   #   restart: always
+   #   ports:
+   #     - "3380:80"
+   #   volumes:
+   #     - /spool/log/:/var/log/
+   #     - /etc/localtime:/etc/localtime:ro
+   #   networks:
+   #     customize_net:
+   #       ipv4_address: 192.168.123.80
         
    mysqld:
       container_name: mysql-server
@@ -81,9 +81,10 @@ services:
           ipv4_address: 192.168.123.55
 
    pytask:
+      image: 'registry.cn-hangzhou.aliyuncs.com/actanble/py3-base-v2'
       container_name: pytask
       restart: always
-      build: ./xsqlmb
+      #build: ./xsqlmb
       volumes:
         - ./xsqlmb:/usr/local/xsqlmb
       networks:

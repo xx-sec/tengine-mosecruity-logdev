@@ -10,7 +10,7 @@ MongoConfig = dict(host='192.168.123.41', port=27017, db_name='fluentd_log', use
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'p3',
+            'NAME': 'waf92',
             'USER': 'root',
             'PASSWORD': 'test@1q2w2e4R',
             'HOST': "192.168.123.101",
